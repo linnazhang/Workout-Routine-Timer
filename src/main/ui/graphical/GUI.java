@@ -342,7 +342,7 @@ public class GUI extends JFrame {
                                     currentExerciseDisplay.repaint();
 
                                 }
-                            }, 0, 0);
+                            }, 1000, 1000);
 
                         }
                     });
