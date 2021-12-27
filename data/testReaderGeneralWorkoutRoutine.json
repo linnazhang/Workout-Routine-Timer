@@ -1,0 +1,13 @@
+{
+  "exercises": [
+    {
+      "description": "swim",
+      "minutes": 1
+    },
+    {
+      "description": "plank",
+      "minutes": 1
+    }
+  ],
+  "description": "My workout routine"
+}

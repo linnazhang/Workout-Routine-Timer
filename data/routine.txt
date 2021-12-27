@@ -1,0 +1,17 @@
+{
+    "exercises": [
+        {
+            "minutes": 3,
+            "description": "plank"
+        },
+        {
+            "minutes": 4,
+            "description": "situps"
+        },
+        {
+            "minutes": 3,
+            "description": "swim"
+        }
+    ],
+    "description": "Replacement"
+}
