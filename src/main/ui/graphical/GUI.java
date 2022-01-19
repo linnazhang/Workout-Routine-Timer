@@ -15,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -79,7 +80,14 @@ public class GUI extends JFrame {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
+    //Countdown Timer
+    private JLabel counterLabel;
+    DecimalFormat decimalFormat = new DecimalFormat("00");
+    String doubleSecond;
+    String doubleMinute;
 
+    int second;
+    int minute;
     int updateIndex = 0;
     int totalMins = 0;
 
@@ -91,6 +99,7 @@ public class GUI extends JFrame {
 
 
         initializeMainPage();
+
         addElementsToMainPanel();
 
         addButtonAction();
@@ -107,8 +116,6 @@ public class GUI extends JFrame {
         } catch (FileNotFoundException e) {
             fail("Save button failed");
         }
-
-
         initializeMainPageLists();
         addMainPageLists();
         selectExerciseMouseEvent();
@@ -308,12 +315,8 @@ public class GUI extends JFrame {
                 addOverviewList();
                 addElementsToNextPanel();
                 initializeTimerLabels();
-                addTimerLabels(currentExerciseDisplay,timeCountdown);
-                try {
-                    addImage();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                addTimerLabels(currentExerciseDisplay, timeCountdown, counterLabel);
+//
             }
         });
     }
@@ -336,37 +339,66 @@ public class GUI extends JFrame {
                             timer.schedule(new TimerTask() {
                                 @Override
                                 public void run() {
+                                    currentExerciseDisplay.repaint();
                                     currentExercise = wr.getExerciseWithPosition(finalI);
                                     currentExerciseDisplay.setText("Current Exercise:"
                                             + currentExercise.getDescription());
-                                    currentExerciseDisplay.repaint();
 
                                 }
-                            }, 1000, 1000);
+                            }, 0, 1000);
 
                         }
                     });
 
                 }
+                counterLabel.setText("0" + wr.timeRemaining() + ":00");
+                minute = wr.timeRemaining();
+                second = 0;
+                Timer timer2 = new Timer();
+                timer2.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        second--;
+                        doubleSecond = decimalFormat.format(second);
+                        doubleMinute = decimalFormat.format(minute);
 
-                for (int i = totalMins; i > 0; i--) {
-                    int currentMinute = i;
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            Timer timer2 = new Timer();
-                            timer2.scheduleAtFixedRate(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    timeCountdown.setText(Integer.toString(currentMinute));
+                        counterLabel.setText(doubleMinute + ":" + doubleSecond);
 
-                                }
-                            }, 0, 6000);
+                        if (second == -1) {
+                            second = 59;
+                            minute--;
+                            doubleSecond = decimalFormat.format(second);
+                            doubleMinute = decimalFormat.format(minute);
+                            counterLabel.setText(doubleMinute + ":" + doubleSecond);
+                        }
+                        if (minute == 0 && second == 0) {
+                            timer2.cancel();
+                            counterLabel.setFont(new Font("Arial", Font.BOLD, 20));
+                            counterLabel.setText("Workout Complete!");
                         }
 
-                    });
+                    }
+                }, 1000, 1000);
 
-                }
+
+//                for (int i = totalMins; i > 0; i--) {
+//                    int currentMinute = i;
+//                    SwingUtilities.invokeLater(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Timer timer2 = new Timer();
+//                            timer2.scheduleAtFixedRate(new TimerTask() {
+//                                @Override
+//                                public void run() {
+//                                    timeCountdown.setText(Integer.toString(currentMinute));
+//
+//                                }
+//                            }, 0, 6000);
+//                        }
+//
+//                    });
+//
+//                }
 
             }
         });
@@ -486,6 +518,8 @@ public class GUI extends JFrame {
         currentExerciseDisplay.setFont(new Font("Ariel", Font.BOLD, 20));
         timeCountdown = new JLabel("");
         timeCountdown.setFont(new Font("Ariel", Font.BOLD, 20));
+        counterLabel = new JLabel("00:00");
+        counterLabel.setFont(new Font("Ariel", Font.BOLD, 80));
 
     }
 
@@ -501,9 +535,10 @@ public class GUI extends JFrame {
 
     //MODIFIES: this
     //EFFECTS: calls addTimerLabel to add labels to second panel
-    public void addTimerLabels(JLabel msg, JLabel time) {
+    public void addTimerLabels(JLabel msg, JLabel time, JLabel count) {
         addTimerLabel(msg, startRightPanel);
-        addTimerLabel(time,startRightPanel);
+        addTimerLabel(time, startRightPanel);
+        addTimerLabel(count, startRightPanel);
     }
 
     //MODIFIES: this
@@ -540,7 +575,6 @@ public class GUI extends JFrame {
         backButton.setPreferredSize(new Dimension(200, 50));
         startLeftPanel.add(backButton);
 
-
         startButtonAction();
         backButtonAction();
 
@@ -576,16 +610,6 @@ public class GUI extends JFrame {
         overviewList.setFixedCellWidth(150);
         setVisible(true);
     }
-
-    //MODIFIES: this
-    //EFFECTS: adds image to second panel
-    public void addImage() throws IOException {
-        BufferedImage image = ImageIO.read(new File("./data/body1.png"));
-        JLabel i1 = new JLabel(new ImageIcon(image));
-        i1.setPreferredSize(new Dimension(230, 500));
-        startLeftPanel.add(i1);
-    }
-
 
     //MODIFIES: this
     //EFFECTS: loads the workout routine from file if it exists
