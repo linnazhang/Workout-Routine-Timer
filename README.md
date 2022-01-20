@@ -4,8 +4,7 @@
 
 This application is a **circuit training timer** which will allow the user to customize their own workout
 routine. The user will be able to add exercises to their workout, and set how long they want each exercise 
-to last. Once started, the application will work down the list and the user will be notified each time the exercise 
-changes. I wanted to do this for my project because I personally need one, and all the ones
+to last. Once started, the application will start the countdown timer. I wanted to do this for my project because I personally need one, and all the ones
 available either cost money or aren't user-friendly. 
 
 ##*User Stories*
@@ -13,11 +12,8 @@ available either cost money or aren't user-friendly.
 - As a user, I want to be able to view the list of exercises in my workout routine
 - As a user, I want to be able to remove an exercise from my workout routine
 - As a user, I want to be able to set a time length for each exercise
-- As a user, I want to be able to preview my next exercise
-- As a user, I want to be able to see how much time is left in the current exercise
-- As a user, I want to be able to know what exercise I am currently supposed to do
-- As a user, I want to be able to reorganize my workout routine
-- As a user, I want to be notified (visual/audio cue) when the exercise changes
+- As a user, I want to be able to preview my workout routine
+- As a user, I want to be able to organize my workout routine
 - As a user, I want to be able to save my workout routine to file
 - As a user, I want to be able to load my workout routine from file
 
