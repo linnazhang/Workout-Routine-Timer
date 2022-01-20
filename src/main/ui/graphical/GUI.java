@@ -7,12 +7,9 @@ import model.WorkoutRoutine;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -81,6 +78,7 @@ public class GUI extends JFrame {
     private JsonReader jsonReader;
 
     //Countdown Timer
+    Timer timer2;
     private JLabel counterLabel;
     DecimalFormat decimalFormat = new DecimalFormat("00");
     String doubleSecond;
@@ -345,16 +343,16 @@ public class GUI extends JFrame {
                                             + currentExercise.getDescription());
 
                                 }
-                            }, 0, 1000);
+                            }, 1000, 1000);
 
                         }
                     });
 
                 }
-                counterLabel.setText("0" + wr.timeRemaining() + ":00");
+                counterLabel.setText(wr.timeRemaining() + ":00");
                 minute = wr.timeRemaining();
                 second = 0;
-                Timer timer2 = new Timer();
+                timer2 = new Timer();
                 timer2.schedule(new TimerTask() {
                     @Override
                     public void run() {
@@ -380,26 +378,6 @@ public class GUI extends JFrame {
                     }
                 }, 1000, 1000);
 
-
-//                for (int i = totalMins; i > 0; i--) {
-//                    int currentMinute = i;
-//                    SwingUtilities.invokeLater(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Timer timer2 = new Timer();
-//                            timer2.scheduleAtFixedRate(new TimerTask() {
-//                                @Override
-//                                public void run() {
-//                                    timeCountdown.setText(Integer.toString(currentMinute));
-//
-//                                }
-//                            }, 0, 6000);
-//                        }
-//
-//                    });
-//
-//                }
-
             }
         });
     }
@@ -412,6 +390,9 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 mainMenu.setVisible(true);
                 startPanel.setVisible(false);
+                if (timer2 != null) {
+                    timer2.cancel();
+                }
             }
         });
     }
@@ -568,8 +549,8 @@ public class GUI extends JFrame {
     //EFFECTS: adds buttons to second panel
     public void addElementsToNextPanel() {
         startButton = new JButton("START!");
-        startButton.setPreferredSize(new Dimension(500, 50));
-        startRightPanel.add(startButton);
+        startButton.setPreferredSize(new Dimension(200, 50));
+        startLeftPanel.add(startButton);
 
         backButton = new JButton("Back");
         backButton.setPreferredSize(new Dimension(200, 50));
