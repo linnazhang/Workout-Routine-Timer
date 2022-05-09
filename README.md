@@ -22,4 +22,6 @@ This application allows users to add exercises to their workout,set how long the
 
 
 Once started, the application will start the timer that counts down from the entire length of the workout routine. A preview of the workout routine is shown to the user again,for easy tracking of which exercise should be executed at the current time. 
+
+
 ![Screen Shot 2022-05-08 at 8 21 18 PM](https://user-images.githubusercontent.com/96746924/167335163-47570ee7-4094-4fc6-80fb-098dc70aceee.png)
